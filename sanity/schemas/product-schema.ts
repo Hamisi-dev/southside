@@ -12,6 +12,27 @@ export const product = defineType({
             validation: (Rule) => Rule.required().min(3).max(200),
         }),
         defineField({
+            name: 'category',
+            title: 'Category',
+            type: 'reference',
+            to: [{type: 'category'}],
+            validation: Rule => Rule.required(),
+        }),
+        defineField({
+            name: 'isFeatured',
+            title: 'Featured Product',
+            description: 'Show this product in the "Products we are proud of" section',
+            type: 'boolean',
+            initialValue: false,
+        }),
+        defineField({
+            name: 'isTrending',
+            title: 'Trending Product',
+            description: 'Show this product in the trending carousel',
+            type: 'boolean',
+            initialValue: false,
+        }),
+        defineField({
             name: 'slug',
             title: 'Slug',
             type: 'slug',

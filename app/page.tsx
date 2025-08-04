@@ -1,39 +1,74 @@
 // Component imports - importing our custom components
 import Hero from "@/app/components/Hero";     // Hero section with video background
 import Products from "@/app/components/Products"; // Products grid component
+import CreativeSection from "@/app/components/CreativeSection"; // Creative harmonious living section
+import TrendingSection from "@/app/components/TrendingSection"; // Trending Now carousel section
+import ComfortableSection from "@/app/components/ComfortableSection"; // Comfortable & Elegante Living section
 
 // Sanity CMS imports
 import { groq } from "next-sanity";              // GROQ query language for Sanity
 import { client } from "@/sanity/lib/client";    // Configured Sanity client
+import Footer from "./components/Footer";
 
 // Main Home page component - this is a Server Component (runs on the server)
 // Server Components can directly fetch data and don't need useEffect or useState
 export default async function Home() {
   // Parallel data fetching using Promise.all for better performance
-  // This fetches both hero and products data simultaneously instead of sequentially
-  const [heroData, products] = await Promise.all([
+  const [heroData, products, creativeSectionData, comfortableSectionData] = await Promise.all([
     
     // GROQ Query 1: Fetch hero section data
-    // *[_type == "hero"][0] - Get the first document of type "hero"
-    // The projection {...} specifies which fields to return
     client.fetch(groq`
       *[_type == "hero"][0] {
-        title,                                    // Hero title text
-        subtitle,                                 // Hero subtitle text
-        "videoUrl": backgroundVideo.asset->url   // Transform video asset to direct URL
+        title,
+        subtitle,
+        "videoUrl": backgroundVideo.asset->url
       }
     `),
     
     // GROQ Query 2: Fetch all products data
-    // *[_type == "products"] - Get all documents of type "products"
-    // Note: The schema name is "products" (plural) as defined in product-schema.ts
     client.fetch(groq`
       *[_type == "products"] {
-        _id,          // Sanity document ID (required for React keys)
-        name,         // Product name
-        price,        // Product price
-        description,  // Product description
-        images        // Product images array (Sanity will return the full image objects)
+        _id,
+        name,
+        price,
+        description,
+        images
+      }
+    `),
+    
+    // GROQ Query 3: Fetch creative section data
+    client.fetch(groq`
+      *[_type == "creativeSection"][0] {
+        title,
+        description,
+        "video": {
+          "asset": {
+            "url": video.asset->url
+          }
+        },
+        "videoThumbnail": {
+          "asset": {
+            "url": videoThumbnail.asset->url
+          }
+        }
+      }
+    `),
+    
+    // GROQ Query 4: Fetch comfortable section data
+    client.fetch(groq`
+      *[_type == "comfortableSection"][0] {
+        title,
+        description,
+        "video": {
+          "asset": {
+            "url": video.asset->url
+          }
+        },
+        "videoThumbnail": {
+          "asset": {
+            "url": videoThumbnail.asset->url
+          }
+        }
       }
     `)
   ]);
@@ -49,6 +84,18 @@ export default async function Home() {
       {/* Products Section */}
       {/* Pass the products array as a prop to the Products component */}
       <Products products={products} />
+      
+      {/* Creative Harmonious Living Section */}
+      <CreativeSection {...(creativeSectionData || {})} />
+      
+      {/* Trending Now Section */}
+      <TrendingSection products={products} />
+      
+      {/* Comfortable & Elegante Living Section */}
+      <ComfortableSection {...(comfortableSectionData || {})} />
+
+     
+     <Footer />
     </main>
   );
 }

@@ -1,0 +1,154 @@
+'use client'
+
+import React, { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { urlFor } from '@/sanity/lib/image'
+import { Product } from '@/types'
+
+interface CategoriesClientProps {
+  products: Product[]
+}
+
+export default function CategoriesClient({ products }: CategoriesClientProps) {
+  const [selectedCategory, setSelectedCategory] = useState('All')
+
+  // Category filter options
+  const categories = [
+    'All',
+    'Crop Tops',
+    'Hats',
+    'HOODIES',
+    'Jackets',
+    'Shorts',
+    'Southside Polo T-Shirts',
+    'SOUTHSIDE STREET EDITION',
+    'The Southside Sets'
+  ]
+
+  // Filter products based on selected category
+  const filteredProducts = selectedCategory === 'All'
+    ? products
+    : products.filter(product => product.category?.name === selectedCategory)
+
+  // Handle category selection
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category)
+    // TODO: Implement actual filtering logic when categories are added to Sanity schema
+  }
+
+  return (
+    <div className="py-8">
+      {/* Category Filter Section */}
+      <div className="mb-12">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Filter Header */}
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Categories</h2>
+            <p className="text-gray-600">Filter by category to find your perfect style</p>
+          </div>
+          
+          {/* Filter Buttons */}
+          <div className="flex flex-wrap gap-3">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => handleCategorySelect(category)}
+                className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+                  selectedCategory === category
+                    ? 'bg-black text-white shadow-lg transform scale-105'
+                    : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-black hover:shadow'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Active Filter Display */}
+      {selectedCategory !== 'All' && (
+        <div className="max-w-7xl mx-auto px-4 mb-8">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">Active filter:</span>
+            <span className="bg-black text-white px-3 py-1 rounded-full text-sm">
+              {selectedCategory}
+            </span>
+            <button 
+              onClick={() => setSelectedCategory('All')}
+              className="text-sm text-gray-600 hover:text-black"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Products Grid */}
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {filteredProducts.map((product) => (
+            <Link 
+              key={product._id}
+              href={`/products/${product._id}`}
+              className="group cursor-pointer"
+            >
+              <div className="bg-white rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                {/* Product Image */}
+                <div className="aspect-square bg-gray-50 flex items-center justify-center p-6">
+                  {product.images && product.images[0] ? (
+                    <Image
+                      src={urlFor(product.images[0])
+                        .width(800) // Larger source image
+                        .height(800)
+                        .fit('clip')
+                        .url()}
+                      alt={product.name}
+                      width={800}
+                      height={800}
+                      className="object-contain max-w-full max-h-full group-hover:scale-105 transition-transform duration-300"
+                      priority={true} // Prioritize loading for better user experience
+                    />
+                  ) : (
+                    <div className="w-32 h-32 bg-gray-300 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-gray-400 rounded"></div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Product Info */}
+                <div className="p-6">
+                  <h3 className="text-lg font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-black transition-colors">
+                    {product.name}
+                  </h3>
+                  <p className="text-xl font-bold text-black">
+                    ${product.price}
+                  </p>
+                  {product.category && (
+                    <span className="mt-2 inline-block text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+                      {product.category.name}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Empty state if no products */}
+        {filteredProducts.length === 0 && (
+          <div className="text-center py-12">
+            <div className="text-gray-400 mb-4">
+              <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
+            <p className="text-gray-600">Try selecting a different category or check back later.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

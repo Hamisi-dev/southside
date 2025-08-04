@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import NavbarWrapper from "./components/NavbarWrapper";
+import Providers from "./components/Providers";
 
 export const metadata: Metadata = {
   title: "Southside Clothing Diani",
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-urbanist antialiased">
-        <NavbarWrapper />
-        {children}
+        <Providers>
+          <NavbarWrapper />
+          {children}
+        </Providers>
       </body>
     </html>
   );
