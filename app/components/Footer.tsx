@@ -1,17 +1,17 @@
 // Footer component for Southside Clothing Diani
-// 2025 e-commerce footer with lead magnets, enhanced social media, and mobile-first design
+// Clean, brand-focused footer design
 'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Instagram, Facebook, Youtube, MessageCircle, Mail, Phone, MapPin, Shield, CreditCard, Truck, ArrowRight } from 'lucide-react'
-import ThemeToggle from './ThemeToggle'
+import { Instagram, Facebook, Youtube, Twitter, MessageCircle, Mail, Phone, MapPin, Shield, CreditCard, Truck, ArrowRight } from 'lucide-react'
 
 interface SocialLinks {
   instagram?: string
   facebook?: string
   tiktok?: string
   youtube?: string
+  twitter?: string
   whatsapp?: string
   googleReviews?: string
 }
@@ -31,14 +31,15 @@ export default function Footer() {
   // Static site settings - replace with your actual data
   const siteSettings: SiteSettings = {
     socialMedia: {
-      instagram: "https://instagram.com/southside",
-      facebook: "https://facebook.com/southside",
-      youtube: "https://youtube.com/southside",
+      instagram: "https://www.instagram.com/southside_diani/",
+      facebook: "https://www.facebook.com/southsidediani/",
+      youtube: "https://www.youtube.com/@SouthsideClothing",
+      twitter: "https://x.com/Southsidediani",
       whatsapp: "https://wa.me/1234567890",
     },
     contactInfo: {
-      email: "hello@southside.com",
-      phone: "+254 123 456 789",
+      email: "southsidediani@gmail.com",
+      phone: "+254 791921019",
       address: "Diani Beach, Kenya"
     }
   }
@@ -58,34 +59,34 @@ export default function Footer() {
   const contactInfo = siteSettings?.contactInfo || {}
 
   return (
-    <footer className="bg-[var(--sand-beige)] border-t border-[var(--ocean-blue)]/10">
-      {/* Newsletter Lead Magnet - 2025 Best Practice */}
-      <div className="bg-gradient-to-r from-[var(--ocean-blue)] to-[var(--deep-terracotta)] py-12">
+    <footer className="bg-white border-t border-gray-100">
+      {/* Brand Newsletter Section */}
+      <div className="bg-gradient-to-r from-blue-900 to-orange-800 py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center text-white">
-            <h3 className="text-2xl font-bold mb-2">Join the Southside Family</h3>
-            <p className="text-white/90 mb-6">Get exclusive access to new drops, beach style guides, and 15% off your first order</p>
+          <div className="max-w-3xl mx-auto text-center text-white">
+            <h2 className="text-3xl font-bold mb-4">Join the Southside Family</h2>
+            <p className="text-xl text-white/90 mb-8">Discover the latest beach fashion from Diani. Get exclusive access to new collections and special offers.</p>
             
             {!isSubscribed ? (
-              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
+                  placeholder="Enter your email address"
+                  className="flex-1 px-6 py-4 rounded-full text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-white/30 text-lg"
                   required
                 />
                 <button
                   type="submit"
-                  className="bg-white text-[var(--ocean-blue)] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                  className="bg-white text-blue-900 px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-2 text-lg shadow-lg hover:shadow-xl"
                 >
-                  Subscribe <ArrowRight className="w-4 h-4" />
+                  Subscribe <ArrowRight className="w-5 h-5" />
                 </button>
               </form>
             ) : (
-              <div className="bg-white/20 rounded-lg p-4 max-w-md mx-auto">
-                <p className="font-semibold">🎉 Welcome to the family! Check your email for your discount code.</p>
+              <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 max-w-lg mx-auto border border-white/30">
+                <p className="text-xl font-semibold">🎉 Welcome to the Southside family! Check your email for exclusive offers.</p>
               </div>
             )}
             
@@ -94,59 +95,74 @@ export default function Footer() {
       </div>
 
       {/* Main Footer Content */}
-      <div className="py-12">
+      <div className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             
-            {/* Shop Links - Prioritized Navigation */}
-            <div>
-              <h4 className="text-[var(--ocean-blue)] font-semibold mb-4">Shop</h4>
-              <ul className="space-y-2">
-                <li><Link href="/men" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">Men</Link></li>
-                <li><Link href="/women" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">Women</Link></li>
-                <li><Link href="/accessories" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">Accessories</Link></li>
-                <li><Link href="/shop" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">All Products</Link></li>
-              </ul>
-            </div>
-
-            {/* Customer Care */}
-            <div>
-              <h4 className="text-[var(--ocean-blue)] font-semibold mb-4">Customer Care</h4>
-              <ul className="space-y-2">
-                <li><Link href="/contact" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">Contact Us</Link></li>
-                <li><Link href="/shipping" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">Shipping & Returns</Link></li>
-                <li><Link href="/size-guide" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">Size Guide</Link></li>
-                <li><Link href="/faq" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">FAQ</Link></li>
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <h4 className="text-[var(--ocean-blue)] font-semibold mb-4">Company</h4>
-              <ul className="space-y-2">
-                <li><Link href="/about" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">About Us</Link></li>
-                <li><Link href="/our-story" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">Our Story</Link></li>
-                <li><Link href="/why-choose-southside" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">Why Choose Southside</Link></li>
-                <li><Link href="/careers" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">Careers</Link></li>
-                <li><Link href="/sustainability" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">Sustainability</Link></li>
-              </ul>
-            </div>
-
-            {/* Connect & Contact */}
-            <div>
-              <h4 className="text-[var(--ocean-blue)] font-semibold mb-4">Connect</h4>
+            {/* Brand & About */}
+            <div className="lg:col-span-1">
+              <div className="mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">SOUTHSIDE</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Discover authentic beach fashion from the heart of Diani, Kenya. 
+                  We create timeless pieces that capture the spirit of coastal living.
+                </p>
+              </div>
               
-              {/* Enhanced Social Media - 2025 Best Practice */}
-              <div className="flex flex-wrap gap-3 mb-4">
+              {/* Contact Info */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Phone className="w-5 h-5 text-blue-600" />
+                  <Link 
+                    href={`tel:${contactInfo.phone}`}
+                    className="hover:text-blue-600 transition-colors font-medium"
+                  >
+                    {contactInfo.phone}
+                  </Link>
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Mail className="w-5 h-5 text-blue-600" />
+                  <Link 
+                    href={`mailto:${contactInfo.email}`}
+                    className="hover:text-blue-600 transition-colors font-medium"
+                  >
+                    {contactInfo.email}
+                  </Link>
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <MapPin className="w-5 h-5 text-blue-600" />
+                  <span>{contactInfo.address}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-lg font-bold text-gray-900 mb-6">Quick Links</h4>
+              <ul className="space-y-3">
+                <li><Link href="/categories" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Shop All</Link></li>
+                <li><Link href="/about" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">About Us</Link></li>
+                <li><Link href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Contact</Link></li>
+                <li><Link href="/shipping" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Shipping Info</Link></li>
+                <li><Link href="/returns" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Returns</Link></li>
+              </ul>
+            </div>
+
+            {/* Social Media */}
+            <div>
+              <h4 className="text-lg font-bold text-gray-900 mb-6">Follow Us</h4>
+              
+              {/* Social Media Icons */}
+              <div className="flex gap-4 mb-6">
                 {socialLinks.instagram && (
                   <Link 
                     href={socialLinks.instagram} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 rounded-lg hover:scale-105 transition-transform"
+                    className="bg-gradient-to-br from-purple-600 to-pink-500 text-white p-3 rounded-full hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl"
                     aria-label="Follow us on Instagram"
                   >
-                    <Instagram className="w-5 h-5" />
+                    <Instagram className="w-6 h-6" />
                   </Link>
                 )}
                 {socialLinks.facebook && (
@@ -154,10 +170,21 @@ export default function Footer() {
                     href={socialLinks.facebook} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="bg-blue-600 text-white p-2 rounded-lg hover:scale-105 transition-transform"
+                    className="bg-blue-600 text-white p-3 rounded-full hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl"
                     aria-label="Follow us on Facebook"
                   >
                     <Facebook className="w-5 h-5" />
+                  </Link>
+                )}
+                {socialLinks.twitter && (
+                  <Link 
+                    href={socialLinks.twitter} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="bg-black text-white p-2 rounded-lg hover:scale-105 transition-transform"
+                    aria-label="Follow us on Twitter/X"
+                  >
+                    <Twitter className="w-5 h-5" />
                   </Link>
                 )}
                 {socialLinks.youtube && (
@@ -189,13 +216,23 @@ export default function Footer() {
                 {contactInfo.phone && (
                   <div className="flex items-center gap-2">
                     <Phone className="w-4 h-4" />
-                    <span>{contactInfo.phone}</span>
+                    <Link 
+                      href={`tel:${contactInfo.phone}`}
+                      className="hover:text-[var(--deep-terracotta)] transition-colors cursor-pointer"
+                    >
+                      {contactInfo.phone}
+                    </Link>
                   </div>
                 )}
                 {contactInfo.email && (
                   <div className="flex items-center gap-2">
                     <Mail className="w-4 h-4" />
-                    <span>{contactInfo.email}</span>
+                    <Link 
+                      href={`mailto:${contactInfo.email}`}
+                      className="hover:text-[var(--deep-terracotta)] transition-colors cursor-pointer"
+                    >
+                      {contactInfo.email}
+                    </Link>
                   </div>
                 )}
                 {contactInfo.address && (
@@ -247,7 +284,6 @@ export default function Footer() {
                 <div className="text-sm text-gray-600">
                   <p>&copy; {new Date().getFullYear()} Southside Clothing Diani. All rights reserved.</p>
                 </div>
-                <ThemeToggle />
               </div>
               <div className="flex flex-wrap gap-4 text-sm">
                 <Link href="/privacy" className="text-gray-600 hover:text-[var(--deep-terracotta)] transition-colors">Privacy Policy</Link>
